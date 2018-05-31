@@ -1,9 +1,9 @@
-require('dotenv').config()
+'use strict';
 
-var mqtt_msg_counter = 0;
+require('dotenv').config();
+
 var udp_msg_counter = 0;
 var coap_msg_counter = 0;
-
 
 // azure sdk
 const clientFromConnectionString = require('azure-iot-device-mqtt').clientFromConnectionString;
@@ -43,28 +43,11 @@ cserver.on('request', function (req, res) {
     });
     sendToHub(data);
     res.end('message received by telenet coap server\n')
-})
+});
 
 cserver.listen(function () {
     console.log('coap server started on port 5683')
-})
-
-// mqtt without security
-const mqtt = require('mqtt')
-var mclient = mqtt.connect(process.env.MQTT_BROKER)
-
-mclient.on('connect', function () {
-    mclient.subscribe('mqtt listener started on port 1883');
-    mclient.subscribe('presence')
-    mclient.publish('presence', 'Hello mqtt')
-})
-
-mclient.on('message', function (topic, message) {
-    // message is Buffer
-    sendToHub(new Message(message.toString()));
-    last = 'mqtt';
-    mqtt_msg_counter++;
-})
+});
 
 // raw udp datagrams
 var dgram = require('dgram');
