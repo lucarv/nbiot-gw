@@ -1,0 +1,20 @@
+{
+  "name": "coap-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "azure-iot-device": "^1.2.2",
+    "azure-iot-device-mqtt": "^1.2.3",
+    "azure-iothub": "^1.2.2",
+    "coap": "^0.21.0",
+    "dgram": "^1.0.1",
+    "dotenv": "^5.0.1",
+    "mqtt": "^2.15.0"
+  }
+}
