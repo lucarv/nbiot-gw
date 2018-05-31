@@ -6,7 +6,7 @@ var udp_msg_counter = 0;
 var coap_msg_counter = 0;
 
 // azure sdk
-const clientFromConnectionString = require('azure-iot-device-mqtt').clientFromConnectionString;
+const clientFromConnectionString = require('azure-iot-device-amqp').clientFromConnectionString;
 var Message = require('azure-iot-device').Message;
 const Client = require('azure-iot-device').Client;
 
@@ -33,7 +33,7 @@ const cserver = coap.createServer();
 cserver.on('request', function (req, res) {
     console.log('coap request received\n')
     let nodeTime = new Date().toISOString();
-    console.log('nodeTime: ' + nodeTime)
+    console.log('nodeTime: ' + nodeTime);
 
     let data = JSON.stringify({
         nodeTime: nodeTime,
