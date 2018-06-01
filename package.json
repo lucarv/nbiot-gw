@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "azure-iot-device": "^1.2.2",
-    "azure-iot-device-amqp": "^1.2.3",
+    "azure-iot-device-amqp": "^1.4.3",
     "azure-iothub": "^1.2.2",
     "coap": "^0.21.0",
     "dgram": "^1.0.1",
