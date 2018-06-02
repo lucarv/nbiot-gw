@@ -1,0 +1,19 @@
+extends layout
+
+block content
+    .panel.panel-default
+        .panel-heading Configure CoAP device
+        .panel-body 
+            form(action='/', method='post')
+                fieldset
+                    .form-group.row
+                        .col-sm-2
+                            input.form-control(type='text', name='deviceId', placeholder='device identity') 
+                        .col-sm-6   
+                            input.form-control(type='text', name='connString', placeholder='device connection string') 
+                        .col-sm-4
+                            input.form-control(type='text', name='baseUrl', placeholder='base url')  
+                    .form-group.row                                                       
+                        .col-sm-2
+                            button.btn.btn-primary(type='submit') submit
+        

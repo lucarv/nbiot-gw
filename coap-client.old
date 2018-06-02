@@ -1,0 +1,105 @@
+'use strict';
+
+require('dotenv').config();
+const coap = require('coap'),
+    server = coap.createServer();
+server.listen(function () {
+    console.log('coap listener started')
+}); // the default CoAP port is 5683
+
+const Koa = require('koa');
+const app = new Koa();
+const Router = require('koa-router');
+const bodyParser = require('koa-bodyparser');
+var Pug = require('koa-pug');
+var pug = new Pug({
+   viewPath: './views',
+   basedir: './views',
+   app: app
+});
+
+var router = new Router();
+
+var device = {
+    deviceId: null
+};
+
+
+var getDataFromDevice = function () {
+    if (!device.deviceId)
+        console.log('device not configured')
+    else {
+        var req = coap.request(url);
+        req.on('response', function (res) {
+            res.pipe(process.stdout)
+            res.on('end', function () {
+                console.log(+'\n')
+                let data = JSON.stringify({
+                    payload: res.payload.toString()
+                });
+                sendToHub(data);
+                device.lastVal = parseFloat(res.payload.toString());
+                console.log('GET DATA');
+                console.log(device)
+                //process.exit(0);
+            });
+        });
+
+        req.end();
+    }
+}
+
+// azure sdk
+const clientFromConnectionString = require('azure-iot-device-amqp').clientFromConnectionString;
+const Client = require('azure-iot-device').Client;
+var Message = require('azure-iot-device').Message,
+    azure_client, url;
+
+var sendToHub = function (data) {
+    let message = new Message(data);
+
+    azure_client.sendEvent(message, function (err, res) {
+        if (err)
+            console.log('Message sending error: ' + err.toString());
+        else
+        if (res)
+            console.log('value sent to Iot Hub: ' + JSON.stringify(message));
+    })
+}
+
+router
+    .get('/', (ctx, next) => {
+        ctx.render('device');
+    })
+    .post('/', (ctx, next) => {
+        device = ctx.request.body;
+        azure_client = clientFromConnectionString(device.connString);
+        ctx.render('value');
+    })
+    .get('/value', (ctx, next) => {
+        getDataFromDevice();
+        ctx.body = JSON.stringify({
+            "result": 'fetching'
+        });
+    })
+    .post('/value', (ctx, next) => {
+        url = device.baseUrl + ctx.request.body.valueName;
+        device.valueName = ctx.request.body.valueName;
+        ctx.body = JSON.stringify({
+            "result": url
+        });
+    })
+    .get('/lastVal', (ctx, next) => {
+        ctx.render('lastval', {device});
+    })
+    .post('/lastVal', (ctx, next) => {
+        ctx.render('value');
+    });
+
+app
+    .use(bodyParser())
+    .use(router.routes())
+    .use(router.allowedMethods());
+
+app.listen(3000);
+console.log('mgmt server started');

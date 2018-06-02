@@ -1,0 +1,17 @@
+extends layout
+
+block content
+    .panel.panel-default
+        .panel-heading Configure CoAP device Mock Up (simulate a POST /config Request)
+        .panel-body 
+            form(action='/config', method='post')
+                fieldset
+                    .form-group.row
+                        .col-sm-2
+                            input.form-control(type='text', name='id', placeholder='device identity') 
+                        .col-sm-4
+                            input.form-control(type='text', name='baseUrl', placeholder='base url')  
+                    .form-group.row                                                       
+                        .col-sm-2
+                            button.btn.btn-primary(type='submit') submit
+        

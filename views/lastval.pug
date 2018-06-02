@@ -1,0 +1,15 @@
+extends layout
+
+block content
+    .panel.panel-default
+        .panel-heading Last Read Value
+        .panel-body 
+            form(action='/lastval', method='post')
+                fieldset
+                    .form-group.row
+                        .col-sm-4
+                            input.form-control(type='text', placeholder=device.valueName)  
+                        .col-sm-2
+                            input.form-control(type='text', placeholder=device.lastVal)                             
+                        .col-sm-2
+                            button.btn.btn-primary(type='submit') fetch next

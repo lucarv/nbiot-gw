@@ -1,0 +1,16 @@
+extends layout
+
+block content
+    .panel.panel-default
+        .panel-heading Choose Value to Read
+        .panel-body 
+            form(action='/read', method='post')
+                fieldset
+                    .form-group.row
+                        .col-sm-2
+                            input.form-control(type='text', name='deviceId', placeholder='device identity')                     
+                        .col-sm-4
+                            input.form-control(type='text', name='valueName', placeholder='value to fetch')  
+                    .form-group.row                                                       
+                        .col-sm-2
+                            button.btn.btn-primary(type='submit') submit

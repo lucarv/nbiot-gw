@@ -4,18 +4,19 @@
 const coap = require('coap');
 const cserver = coap.createServer();
 
+
 cserver.on('request', function (req, res) {
-    console.log('coap request received\n');
-    console.log(req.url)
-
+    console.log('coap request received: ' + req.url);
     let nodeTime = new Date().toISOString();
-    console.log('nodeTime: ' + nodeTime);
+    console.log('time stamp: ' + nodeTime);
 
+    var value = (Math.random() * (16 - 15) + 15).toFixed(4);
 
-   res.end('12 ');
+   res.end(value);
 });
 
 cserver.listen(function () {
     console.log('coap server started on port 5683')
 });
+
 
